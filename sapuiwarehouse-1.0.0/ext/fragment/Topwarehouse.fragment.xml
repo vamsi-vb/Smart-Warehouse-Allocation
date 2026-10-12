@@ -1,0 +1,20 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:macros="sap.fe.macros"
+>
+
+
+
+ <Dialog title="Top Warehouse Info" contentWidth="350px">
+   <VBox core:require="{ handler: 'sap/ui/warehouse/ext/controller/Topwarehouse'}" modelContextChange="handler.onModelContextChange" class="sapUiSmallMargin">
+      <Text text="Most selling warehouse in the app" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+      <HBox class="sapUiSmallMarginTop" >
+          <Text text="{topWarehouse>/WarehouseName}" class="sapUiSmallMarginBegin" />
+      </HBox>
+   </VBox>
+   <endButton>
+       <Button text="Close" press="handler.onCloseDialog" core:require="{ handler: 'sap/ui/warehouse/ext/controller/Topwarehouse'}"/>
+   </endButton>
+ </Dialog>
+</core:FragmentDefinition>

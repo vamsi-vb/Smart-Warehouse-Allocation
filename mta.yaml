@@ -1,0 +1,172 @@
+_schema-version: 3.3.0
+ID: wa
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install --frozen-lockfile
+        - npx cds build --production
+modules:
+  - name: wa-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: wa-auth
+      - name: wa-db
+      - name: wa-destination-service
+
+  - name: wa-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: wa-db
+
+  - name: wa-app-deployer
+    type: com.sap.application.content
+    path: gen
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: wav2wa
+          artifacts:
+            - v2wa.zip
+          target-path: app/
+        - name: wav4wa
+          artifacts:
+            - v4wa.zip
+          target-path: app/
+    requires:
+      - name: wa-auth
+      - name: srv-api
+      - name: wa-html5-repo-host
+        parameters:
+          content-target: true
+          config:
+            HTML5Runtime_enabled: true
+
+  - name: wa-destination-content
+    type: com.sap.application.content
+    build-parameters:
+      no-source: true
+    requires:
+      - name: wa-destination-service
+        parameters:
+          content-target: true
+      - name: wa-auth
+        parameters:
+          service-key:
+            name: wa-auth-key
+      - name: wa-html5-repo-host
+        parameters:
+          service-key:
+            name: wa-html5-repo-host-key
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: wa-html5-repository
+              ServiceInstanceName: wa-html5-repo-host
+              ServiceKeyName: wa-html5-repo-host-key
+              sap.cloud.service: smartwarehouse
+            - Name: wa-auth
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: wa-auth
+              ServiceKeyName: wa-auth-key
+              sap.cloud.service: smartwarehouse
+
+  - name: wav2wa
+    type: html5
+    path: app/v2wa
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install --no-audit --no-fund
+        - npm run build
+      supported-platforms:
+        []
+
+  - name: wav4wa
+    type: html5
+    path: app/v4wa
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install --no-audit --no-fund
+        - npm run build
+      supported-platforms:
+        []
+
+resources:
+  - name: wa-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: wa-${org}-${space}
+        tenant-mode: dedicated
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
+        role-collections:
+          - name: 'admin (wa ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.admin'
+          - name: 'user (wa ${org}-${space})'
+            description: 'generated'
+            role-template-references:
+              - '$XSAPPNAME.user'
+  - name: wa-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: wa-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: wa-destination-service
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: srv-api
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            existing_destinations_policy: update
+            destinations:
+              - Name: srv-api
+                Type: HTTP
+                ProxyType: Internet
+                URL: ~{srv-api/srv-url}
+                Authentication: NoAuthentication
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true

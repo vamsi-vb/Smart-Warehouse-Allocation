@@ -1,0 +1,28 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:macros="sap.fe.macros">
+    <Panel id="metricsPanel" class="sapUiContentPadding" binding="{path: '', parameters: {$expand: 'item'}}" visible="{= ${IsActiveEntity} === true || ${HasActiveEntity} === true }">
+        <VBox core:require="{ handler: 'sap/ui/warehouse/ext/controller/CustomSection' }" modelContextChange="handler.onModelContextChange">
+            <Text text="Order Metrics" class="sapUiSmallMarginBottom"/>
+            
+            <HBox class="sapUiSmallMarginBottom">
+                <VBox class="sapUiMediumMarginEnd">
+                    <Label text="Total Quantity" />
+                    <Text id="totalQuantityText" text="{metrics>/totalQuantity}" />
+                </VBox>
+                <VBox class="sapUiMediumMarginEnd">
+                    <Label text="Item Count" />
+                    <Text id="itemCountText" text="{metrics>/itemCount}" />
+                </VBox>
+                <VBox>
+                    <Label text="Average Quantity" />
+                    <Text id="averageQuantityText" text="{metrics>/averageQuantity}" />
+                </VBox>
+            </HBox>
+            <Button text="Best Warehouse For Items" press="handler.onAllocate" type="Emphasized" />
+        </VBox>
+    </Panel>
+    
+    <!-- creatoin mode is set so, in new version of cap for mocked pop up may not show -->
+</core:FragmentDefinition>

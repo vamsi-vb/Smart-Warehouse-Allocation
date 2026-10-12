@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<edmx:Edmx
+    Version="4.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+
+    <edmx:Reference
+        Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='')/$value">
+
+        <edmx:Include
+            Namespace="com.sap.vocabularies.UI.v1"
+            Alias="UI"/>
+         <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+
+    <edmx:DataServices>
+
+        <Schema
+            Namespace="smart.warehouse.fe.v2"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+
+            <Annotations Target="CatalogService.SalesOrders">
+
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>EditingStatus</PropertyPath>
+                        <PropertyPath>OrderNumber</PropertyPath>
+                        <PropertyPath>CustomerName</PropertyPath>
+                        <PropertyPath>CustomerEmail</PropertyPath>
+                    </Collection>
+                </Annotation>
+
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Order Number"/>
+                            <PropertyValue Property="Value" Path="OrderNumber"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Customer Name"/>
+                            <PropertyValue Property="Value" Path="CustomerName"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Customer Email"/>
+                            <PropertyValue Property="Value" Path="CustomerEmail"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Order Details"/>
+                            <PropertyValue Property="ID" String="OrderDetailsFacet"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#OrderDetails"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Items"/>
+                            <PropertyValue Property="ID" String="ItemsFacet"/>
+                            <PropertyValue Property="Target" AnnotationPath="item/@UI.LineItem"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+
+                <Annotation Term="UI.FieldGroup" Qualifier="OrderDetails">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Order Number"/>
+                                    <PropertyValue Property="Value" Path="OrderNumber"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Customer Name"/>
+                                    <PropertyValue Property="Value" Path="CustomerName"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Customer Email"/>
+                                    <PropertyValue Property="Value" Path="CustomerEmail"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Customer Latitude"/>
+                                    <PropertyValue Property="Value" Path="CustomerLatitude"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Customer Longitude"/>
+                                    <PropertyValue Property="Value" Path="CustomerLongitude"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="CatalogService.Items">
+
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Product Id"/>
+                            <PropertyValue Property="Value" Path="ProductId"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Product Name"/>
+                            <PropertyValue Property="Value" Path="ProductName"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Quantity"/>
+                            <PropertyValue Property="Value" Path="quantity"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Allocated Warehouse Id"/>
+                            <PropertyValue Property="Value" Path="AllocatedWarehouse_ID"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Warehouse Name"/>
+                            <PropertyValue Property="Value" Path="AllocatedWarehouse/WarehouseName"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Item Details"/>
+                            <PropertyValue Property="ID" String="ItemDetailsFacet"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#ItemDetails"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+
+                <Annotation Term="UI.FieldGroup" Qualifier="ItemDetails">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Product Id"/>
+                                    <PropertyValue Property="Value" Path="ProductId"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Product Name"/>
+                                    <PropertyValue Property="Value" Path="ProductName"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Quantity"/>
+                                    <PropertyValue Property="Value" Path="quantity"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Unit Price"/>
+                                    <PropertyValue Property="Value" Path="UnitPrice"/>
+                                </Record>
+
+                                <Term Name="Masked" Nullable="false" DefaultValue="true" AppliesTo="Property">
+                                     
+                                    <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Allocated Warehouse Id"/>
+                                    <PropertyValue Property="Value" Path="AllocatedWarehouse_ID"/>
+                                </Record>
+                                </Term>
+
+                                
+
+
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Warehouse Name"/>
+                                    <PropertyValue Property="Value" Path="AllocatedWarehouse/WarehouseName"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.FieldGroup" Qualifier="ParentInfo">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="CustomerName"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value" Path="OrderNumber"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.HeaderFacets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#ParentInfo"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+
+
+
+
+        </Schema>
+
+    </edmx:DataServices>
+</edmx:Edmx>

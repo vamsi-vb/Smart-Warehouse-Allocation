@@ -1,0 +1,187 @@
+{
+	"$schema": "https://raw.githubusercontent.com/SAP/ui5-manifest/master/schema.json",
+	"_version": "1.49.0",
+	"sap.app": {
+		"id": "sap.ui.warehouse",
+		"type": "application",
+		"i18n": {
+			"bundleUrl": "i18n/i18n.properties",
+			"supportedLocales": [
+				"",
+				"en",
+				"en-US"
+			]
+		},
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "Smart Warehouse Allocation",
+		"description": "Smart Warehouse Allocation Application",
+		"dataSources": {
+			"mainService": {
+				"uri": "/odata/v4/catalog/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0"
+				}
+			}
+		},
+		"crossNavigation": {
+			"inbounds": {
+				"SmartWarehouse-allocate": {
+					"semanticObject": "SmartWarehouse",
+					"action": "allocate",
+					"title": "Smart Warehouse Allocation",
+					"signature": {
+						"parameters": {},
+						"additionalParameters": "allowed"
+					}
+				}
+			}
+		}
+	},
+	"sap.cloud": {
+		"public": true,
+		"service": "smartwarehouse"
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"fullWidth": true,
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"dependencies": {
+			"minUI5Version": "1.108.0",
+			"libs": {
+				"sap.m": {},
+				"sap.ui.core": {},
+				"sap.fe.core": {},
+				"sap.fe.templates": {}
+			}
+		},
+		"models": {
+			"": {
+				"dataSource": "mainService",
+				"preload": true,
+				"settings": {
+					"synchronizationMode": "None",
+					"operationMode": "Server",
+					"autoExpandSelect": true,
+					"earlyRequests": true
+				}
+			},
+			"@i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"uri": "i18n/i18n.properties",
+				"settings": {
+					"supportedLocales": [
+						"",
+						"en",
+						"en-US"
+					]
+				}
+			}
+		},
+		"routing": {
+			"config": {},
+			"routes": [
+				{
+					"name": "SalesOrdersList",
+					"pattern": ":?query:",
+					"target": "SalesOrdersList"
+				},
+				{
+					"name": "SalesOrdersObjectPage",
+					"pattern": "SalesOrders({SalesOrdersKey}):?query:",
+					"target": "SalesOrdersObjectPage"
+				},
+				{
+					"name": "ItemsObjectPage",
+					"pattern": "SalesOrders({SalesOrdersKey})/item({ItemsKey}):?query:",
+					"target": "ItemsObjectPage"
+				}
+			],
+			"targets": {
+				"SalesOrdersList": {
+					"type": "Component",
+					"id": "SalesOrdersList",
+					"name": "sap.fe.templates.ListReport",
+					"options": {
+						"settings": {
+							"entitySet": "SalesOrders",
+							"variantManagement": "Page",
+							"controlConfiguration": {
+								"@com.sap.vocabularies.UI.v1.LineItem": {
+									"actions": {
+										"TopWarehouseAction": {
+											"id": "TopWarehouseAction",
+											"text": "Best Sold Warehouse in app",
+											"press": "sap.ui.warehouse.ext.controller.TopwarehouseListAction.onPressTopWarehouse",
+											"requiresSelection": false
+										}
+									}
+								}
+							},
+							"navigation": {
+								"SalesOrders": {
+									"detail": {
+										"route": "SalesOrdersObjectPage"
+									}
+								}
+							}
+						}
+					}
+				},
+				"SalesOrdersObjectPage": {
+					"type": "Component",
+					"id": "SalesOrdersObjectPage",
+					"name": "sap.fe.templates.ObjectPage",
+					"options": {
+						"settings": {
+							"entitySet": "SalesOrders",
+							"navigation": {
+								"item": {
+									"detail": {
+										"route": "ItemsObjectPage"
+									}
+								}
+							},
+							"controlConfiguration": {
+								"@com.sap.vocabularies.UI.v1.Facets": {
+									"sections": {
+										"CustomSection": {
+											"id": "CustomSection",
+											"title": "Order Metrics & Allocation",
+											"type": "XMLFragment",
+											"name": "sap.ui.warehouse.ext.fragment.CustomSection",
+											"visible": "{= ${IsActiveEntity} === true || ${HasActiveEntity} === true }",
+											"position": {
+												"placement": "Before",
+												"anchor": "ItemsFacet"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"ItemsObjectPage": {
+					"type": "Component",
+					"id": "ItemsObjectPage",
+					"name": "sap.fe.templates.ObjectPage",
+					"options": {
+						"settings": {
+							"entitySet": "Items"
+						}
+					}
+				}
+			}
+		},
+		"flexBundle": false
+	}
+}

@@ -1,0 +1,71 @@
+{
+  "name": "wa",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "@cap-js-community/odata-v2-adapter": "^1.16.1",
+    "@cap-js/hana": "^3.0.2",
+    "@sap/cds": "^10",
+    "@sap/xssec": "^4.13.3",
+    "passport": "^0.7.0",
+    "playwright": "^1.63.0",
+    "sqlite3": "^6.0.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^3",
+    "@playwright/test": "^1.63.0",
+    "@sap/cds-dk": "^10.0.7",
+    "cds-plugin-ui5": "^0.17.0",
+    "mbt": "^1.2.49",
+    "rimraf": "^5.0.5"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-v2wa": "cds watch --open smartwaerhouse.v2app.v2wa/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "undeploy": "cf undeploy smartwaerhousev2appv2wa --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "auth": {
+        "kind": "xsuaa",
+        "[development]": {
+          "kind": "basic-auth",
+          "users": {
+            "alice": {
+              "roles": [
+                "admin"
+              ]
+            },
+            "bob": {
+              "roles": [
+                "user"
+              ]
+            }
+          }
+        }
+      },
+      "db": {
+        "kind": "hana",
+        "[development]": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": "db.sqlite"
+          }
+        }
+      },
+      "html5-repo": true
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/v4wa",
+    "app/v2wa",
+    "app/quotations-ui"
+  ]
+}

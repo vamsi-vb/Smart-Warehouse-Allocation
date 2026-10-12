@@ -1,0 +1,43 @@
+node_modules/
+target/
+_out/
+gen/
+
+.cdsrc-private.json
+default-*.json
+*.sqlite
+
+# MTA
+mta_archives/
+*_mta_build_tmp
+*.mtar
+
+# Other
+.DS_Store
+
+# @cap-js/cds-typer
+@cds-models
+
+
+capm_pres.md
+StaticItems.ods
+server.log
+
+
+UI_ARCHITECTURE.md
+
+
+
+test-orders.http
+test-pw-auth.js
+temp_manifest.json
+
+scratch-test.spec.js
+
+db.sqlite-shm
+db.sqlite-wal
+
+Items.ods
+
+Makefile_20260824110416.mta
+temp_mtar

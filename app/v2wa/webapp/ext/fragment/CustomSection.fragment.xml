@@ -1,0 +1,36 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout">
+
+
+
+    <Panel id="metricsPanel" class="sapUiContentPadding" visible="{= ${IsActiveEntity} === true || ${HasActiveEntity} === true }">
+        <VBox id="metricsVBox">
+            <Text text="Order Metrics" class="sapUiSmallMarginBottom"/>
+            
+            <HBox class="sapUiSmallMarginBottom">
+                <VBox class="sapUiMediumMarginEnd">
+                    <Label text="Total Quantity" />
+                    <Text id="totalQuantityText" text="{metricsModel>/totalQuantity}" />
+                </VBox>
+                <VBox class="sapUiMediumMarginEnd">
+                    <Label text="Item Count" />
+                    <Text id="itemCountText" text="{metricsModel>/itemCount}" />
+                </VBox>
+                <VBox>
+                    <Label text="Average Quantity" />
+                    <Text id="averageQuantityText" text="{metricsModel>/averageQuantity}" />
+                </VBox>
+            </HBox>
+            <Button text="Best Warehouse For Items" press="onAllocateWarehouse" type="Emphasized" />
+        </VBox>
+
+        <!-- <layout:HorizontalLayout class="sapUiTopMarginLarge">
+                <Button text="hi"/>
+        </layout:HorizontalLayout> -->
+
+    </Panel>
+
+
+</core:FragmentDefinition>

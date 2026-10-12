@@ -1,0 +1,15 @@
+{
+  "name": "smart.warehouse.fe.v2",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "ui5 serve --open index.html",
+    "build": "ui5 build --all --clean-dest --dest dist && cd dist && npx rimraf v2wa.zip && npx bestzip v2wa.zip *",
+    "start:local": "ui5 serve"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^4.0.0",
+    "bestzip": "^3.0.2",
+    "rimraf": "^6.1.3"
+  }
+}

@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/mvc/controller","sap/ui/core/routing/history"],function(e){"use strict";return e.extend("sap.ui.warehouse.controller.Orderdetails",{onnavback:function(){let e=history.getInstance();let t=e.getPreviousHash();if(t!==undefined){window.history.go(-1)}else{let e=this.getOwnerComponent().getRouter();e.navTo("salesprder",{},true)}}})});
+//# sourceMappingURL=Orderdetails.controller.js.map

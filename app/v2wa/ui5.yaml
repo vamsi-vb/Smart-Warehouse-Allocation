@@ -1,0 +1,11 @@
+specVersion: "4.0"
+metadata:
+  name: v2wa
+type: application
+
+
+
+resources:
+  configuration:
+    paths:
+      webapp: webapp

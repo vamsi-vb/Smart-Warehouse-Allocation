@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/Fragment"],function(e){"use strict";return{onPressTopWarehouse:function(){if(!this._pTopWarehouseDialog){this._pTopWarehouseDialog=this.loadFragment({id:"topWarehouseDialog",name:"sap.ui.warehouse.ext.fragment.Topwarehouse",controller:this})}this._pTopWarehouseDialog.then(function(e){e.open()})},onCloseDialog:function(e){e.getSource().getParent().close()}}});
+//# sourceMappingURL=TopwarehouseListAction.js.map

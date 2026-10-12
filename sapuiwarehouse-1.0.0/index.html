@@ -1,0 +1,46 @@
+22<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Warehouse Allocation</title>
+
+    <script id="sap-ui-bootstrap"
+        src="https://sapui5.hana.ondemand.com/1.151.0/resources/sap-ui-core.js"
+        data-sap-ui-libs="sap.m, sap.fe.templates, sap.fe.core"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-frameOptions="allow"
+        data-sap-ui-async="true"
+        data-sap-ui-resourceroots='{"sap.ui.warehouse": "./"}'
+        data-sap-ui-bindingSyntax="complex"
+        data-sap-ui-xx-componentPreload="off"
+        data-sap-ui-flexibilityServices='[{"connector": "LocalStorageConnector"}]'>
+    </script>
+    <script>
+        sap.ui.getCore().attachInit(function() {
+            sap.ui.require([
+                "sap/m/Shell",
+                "sap/ui/core/ComponentContainer"
+            ], function (Shell, ComponentContainer) {
+                new Shell({
+                    appWidthLimited: false,
+                    app: new ComponentContainer({
+                        name: "sap.ui.warehouse",
+                        settings: {
+                            id: "sap.ui.warehouse"
+                        },
+                        height: "100%",
+                        async: true
+                    })
+                }).placeAt("content");
+            });
+        });
+    </script>
+</head>
+<body class="sapUiBody sapUiSizeCompact" id="content">
+</body>
+   <!-- flexibility bundle, changes bundle-->
+</html>
+

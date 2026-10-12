@@ -1,0 +1,12 @@
+<mvc:View
+    controllerName="sap.ui.employee.controller.App"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+>
+
+<Shell appWidthLimited="true">
+   <App id="app"/>
+</Shell>
+
+
+</mvc:View>
